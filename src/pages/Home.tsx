@@ -360,7 +360,7 @@ export default function Home() {
                         {pilots.find(p => p.position === "1")?.name || ""}
                       </p>
                       <img 
-                        src="src/assets/a29.svg" 
+                        src="/a29.svg" 
                         alt="A-29" 
                         className="w-16 sm:w-24 mx-auto drop-shadow-[0_0_10px_rgba(66,153,225,0.5)]" 
                       />
@@ -379,7 +379,7 @@ export default function Home() {
                           {pilots.find(p => p.position === "3")?.name || ""}
                         </p>
                         <img 
-                          src="src/assets/a29.svg" 
+                          src="/a29.svg" 
                           alt="A-29" 
                           className="w-16 sm:w-24 mx-auto drop-shadow-[0_0_10px_rgba(66,153,225,0.5)]" 
                         />
@@ -395,7 +395,7 @@ export default function Home() {
                           {pilots.find(p => p.position === "2")?.name || ""}
                         </p>
                         <img 
-                          src="src/assets/a29.svg" 
+                          src="/a29.svg" 
                           alt="A-29" 
                           className="w-16 sm:w-24 mx-auto drop-shadow-[0_0_10px_rgba(66,153,225,0.5)]" 
                         />
@@ -415,7 +415,7 @@ export default function Home() {
                           {pilots.find(p => p.position === "5")?.name || ""}
                         </p>
                         <img 
-                          src="src/assets/a29.svg" 
+                          src="/a29.svg" 
                           alt="A-29" 
                           className="w-16 sm:w-24 mx-auto drop-shadow-[0_0_10px_rgba(66,153,225,0.5)]" 
                         />
@@ -431,7 +431,7 @@ export default function Home() {
                           {pilots.find(p => p.position === "4")?.name || ""}
                         </p>
                         <img 
-                          src="src/assets/a29.svg" 
+                          src="/a29.svg" 
                           alt="A-29" 
                           className="w-16 sm:w-24 mx-auto drop-shadow-[0_0_10px_rgba(66,153,225,0.5)]" 
                         />
@@ -447,7 +447,7 @@ export default function Home() {
                           {pilots.find(p => p.position === "6")?.name || ""}
                         </p>
                         <img 
-                          src="src/assets/a29.svg" 
+                          src="/a29.svg" 
                           alt="A-29" 
                           className="w-16 sm:w-24 mx-auto drop-shadow-[0_0_10px_rgba(66,153,225,0.5)]" 
                         />
@@ -465,7 +465,7 @@ export default function Home() {
                         {pilots.find(p => p.position === "7")?.name || ""}
                       </p>
                       <img 
-                        src="src/assets/a29.svg" 
+                        src="/a29.svg" 
                         alt="A-29" 
                         className="w-16 sm:w-24 mx-auto drop-shadow-[0_0_10px_rgba(66,153,225,0.5)]" 
                       />
@@ -496,7 +496,7 @@ export default function Home() {
                       <div className="relative w-16 h-16 sm:w-24 sm:h-24 mx-auto mb-3 sm:mb-4">
                         <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-xl"></div>
                         <img 
-                          src="/src/assets/imgbin-grand-theft-auto-v-rage-rockstar-games-multiplayer-video-game-pilot-x1d9DckkSueP6MBQLdw6RJsXp_t.png" 
+                          src="/pilotos.png" 
                           alt={pilot.name} 
                           className="relative w-full h-full object-cover object-center rounded-full border-2 border-blue-500/50"
                           style={{ objectPosition: '50% 1%' }}
