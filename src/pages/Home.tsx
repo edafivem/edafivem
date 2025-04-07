@@ -227,7 +227,7 @@ export default function Home() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/src/assets/image.png')",
+            backgroundImage: "url('https://firebasestorage.googleapis.com/v0/b/projeto-testes-6b863.appspot.com/o/carousel%2Fimage.png?alt=media&token=90ee005e-5176-4ffa-954b-9485dce18321')",
             opacity: 0.8
           }}
         ></div>
@@ -326,7 +326,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <img
-                src="/src/assets/logo.png"
+                src="/logo.png"
                 alt="Logo da Esquadrilha da Fumaça"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
