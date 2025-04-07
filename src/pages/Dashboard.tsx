@@ -362,6 +362,7 @@ export default function Dashboard() {
         const enlistment = enlistments.find(e => e.id === enlistmentId);
         if (enlistment) {
           const notificationSent = await sendDiscordNotification({
+            id: enlistment.id,
             city: 'N/A',
             email: enlistment.email,
             date: new Date(),
