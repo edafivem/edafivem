@@ -46,7 +46,7 @@ export default function Navbar() {
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center space-x-2">
               <img 
-                src="/src/assets/logo.png" 
+                src="/logo.png" 
                 alt="Logo da Esquadrilha da Fumaça" 
                 className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto"
               />
