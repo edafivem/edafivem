@@ -134,6 +134,7 @@ export function EnlistmentForm() {
 
       // Enviar notificação para o Discord
       await sendDiscordNotification({
+        id: 'enlistment-' + Date.now(),
         city: 'N/A',
         email: formData.email,
         date: new Date(),

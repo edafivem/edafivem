@@ -14,6 +14,7 @@ interface PresentationData {
   description: string;
   status: string;
   createdAt: Date;
+  discordId?: string;
 }
 
 /**

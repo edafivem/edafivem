@@ -59,7 +59,6 @@ export default function Home() {
   const [date, setDate] = useState<Date>()
   const [loading, setLoading] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [upcomingPresentations, setUpcomingPresentations] = useState<Presentation[]>([])
   const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([])
   const [loadingCarousel, setLoadingCarousel] = useState(true)
   const [pilots, setPilots] = useState<Pilot[]>([])
@@ -79,8 +78,7 @@ export default function Home() {
   // Referências para as seções
   const heroRef = useRef<HTMLDivElement>(null)
   const aboutRef = useRef<HTMLDivElement>(null)
-  const presentationsRef = useRef<HTMLDivElement>(null)
-  const contactRef = useRef<HTMLDivElement>(null)
+
 
   // Função para rolagem suave
   const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
@@ -115,11 +113,9 @@ export default function Home() {
           const today = new Date()
           today.setHours(0, 0, 0, 0)
           
-          const upcoming = presentations
+          presentations
             .filter(p => isToday(p.date) || isBefore(today, p.date))
             .sort((a, b) => a.date.getTime() - b.date.getTime())
-          
-          setUpcomingPresentations(upcoming)
         }, (error) => {
           console.error('Erro ao observar apresentações:', error)
         })
