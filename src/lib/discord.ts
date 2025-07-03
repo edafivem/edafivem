@@ -1,7 +1,13 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
-const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1358649121866780824/MzZs47mlUTbTGVyLa1faSAz_75LGVPD8ByWVFFKt-Oq4GtxTaFMG3JinVg4qyFbqSmk-';
+// URLs dos webhooks do Discord para diferentes tipos de notificações
+const DISCORD_WEBHOOKS = {
+  default: 'https://discord.com/api/webhooks/1358649121866780824/MzZs47mlUTbTGVyLa1faSAz_75LGVPD8ByWVFFKt-Oq4GtxTaFMG3JinVg4qyFbqSmk-',
+  approved: 'https://discord.com/api/webhooks/1390442367336583349/_iiyt2VWxxSkrAabjSWywFXEr82nY3ciLM_JmKRHbbmUJmYACncUDGfTFVIzyko8Xa7I', // Substitua pela URL do canal de aprovados
+  rejected: 'https://discord.com/api/webhooks/1390442367336583349/_iiyt2VWxxSkrAabjSWywFXEr82nY3ciLM_JmKRHbbmUJmYACncUDGfTFVIzyko8Xa7I'  // Substitua pela URL do canal de reprovados
+};
+
 const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
 interface PresentationData {
@@ -20,7 +26,8 @@ interface PresentationData {
 /**
  * Envia uma notificação para o webhook do Discord usando um proxy CORS
  */
-export async function sendDiscordNotification(data: PresentationData): Promise<boolean> {
+export async function sendDiscordNotification(data: PresentationData, webhookType: 'default' | 'approved' | 'rejected' = 'default'): Promise<boolean> {
+  const DISCORD_WEBHOOK_URL = DISCORD_WEBHOOKS[webhookType] || DISCORD_WEBHOOKS.default;
   try {
     const formattedDate = format(data.date, "dd/MM/yyyy", { locale: ptBR });
     
