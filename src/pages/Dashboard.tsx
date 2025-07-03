@@ -334,7 +334,7 @@ export default function Dashboard() {
   // Atualiza o status do alistamento
   const handleEnlistmentStatusUpdate = async (enlistmentId: string, newStatus: Enlistment['status']) => {
     try {
-      setEnlistmentLoading(true);
+      setEnlistmentLoading(true)
       const enlistmentRef = doc(db, 'alistamentos', enlistmentId);
       
       // Encontra o alistamento atual
@@ -364,8 +364,9 @@ export default function Dashboard() {
             id: enlistment.id,
             title: `${enlistment.nome} ${enlistment.sobrenome}`,
             description: `Motivo: ${enlistment.motivoEntrada || 'Não informado'}`,
-            status: newStatus,
+            status: getEnlistmentStatusText(newStatus),
             date: new Date(),
+            discordId: enlistment.discordNick,
             createdAt: new Date()
           };
         } else if (webhookType === 'rejected') {
@@ -375,6 +376,7 @@ export default function Dashboard() {
             title: `Alistamento #${enlistment.id.substring(0, 6)}`,
             status: getEnlistmentStatusText(newStatus),
             date: new Date(),
+            discordId: enlistment.discordNick,
             createdAt: new Date()
           };
         } else {
@@ -383,7 +385,7 @@ export default function Dashboard() {
             id: enlistment.id,
             title: `Alistamento ${getEnlistmentStatusText(newStatus)} - ${enlistment.nome} ${enlistment.sobrenome}`,
             description: `Nome: ${enlistment.nome} ${enlistment.sobrenome}\nMotivo: ${enlistment.motivoEntrada}\nStatus: ${getEnlistmentStatusText(newStatus)}`,
-            status: newStatus,
+            status: getEnlistmentStatusText(newStatus),
             date: new Date(),
             discordId: enlistment.discordNick,
             createdAt: new Date()
@@ -402,7 +404,7 @@ export default function Dashboard() {
         console.error(`Erro ao enviar notificação de ${newStatus} para o Discord:`, discordError);
       }
       
-      toast.success(`Status do alistamento atualizado para ${getEnlistmentStatusText(newStatus)} com sucesso`);
+      toast.success(`Status do alistamento atualizado com sucesso`);
       setIsEnlistmentDialogOpen(false);
     } catch (error) {
       console.error("Erro ao atualizar status do alistamento:", error);
