@@ -4,8 +4,8 @@ import { ptBR } from 'date-fns/locale'
 // URLs dos webhooks do Discord para diferentes tipos de notificações
 const DISCORD_WEBHOOKS = {
   default: 'https://discord.com/api/webhooks/1358649121866780824/MzZs47mlUTbTGVyLa1faSAz_75LGVPD8ByWVFFKt-Oq4GtxTaFMG3JinVg4qyFbqSmk-',
-  approved: 'https://discord.com/api/webhooks/1390442367336583349/_iiyt2VWxxSkrAabjSWywFXEr82nY3ciLM_JmKRHbbmUJmYACncUDGfTFVIzyko8Xa7I', // Substitua pela URL do canal de aprovados
-  rejected: 'https://discord.com/api/webhooks/1390442367336583349/_iiyt2VWxxSkrAabjSWywFXEr82nY3ciLM_JmKRHbbmUJmYACncUDGfTFVIzyko8Xa7I'  // Substitua pela URL do canal de reprovados
+  approved: 'https://discord.com/api/webhooks/1358649121866780824/MzZs47mlUTbTGVyLa1faSAz_75LGVPD8ByWVFFKt-Oq4GtxTaFMG3JinVg4qyFbqSmk-', // Substitua pela URL do canal de aprovados
+  rejected: 'https://discord.com/api/webhooks/1358649121866780824/MzZs47mlUTbTGVyLa1faSAz_75LGVPD8ByWVFFKt-Oq4GtxTaFMG3JinVg4qyFbqSmk-'  // Substitua pela URL do canal de reprovados
 };
 
 const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
@@ -31,42 +31,81 @@ export async function sendDiscordNotification(data: PresentationData, webhookTyp
   try {
     const formattedDate = format(data.date, "dd/MM/yyyy", { locale: ptBR });
     
-    const embed = {
-      title: data.title || "🛩️ Nova Solicitação de Apresentação",
-      color: data.status === 'approved' ? 5025616 : // Verde
-            data.status === 'rejected' ? 15073536 : // Vermelho
-            3447003, // Azul (padrão)
-      fields: [
-        {
-          name: "📍 Cidade",
-          value: data.city,
-          inline: true
-        },
-        {
-          name: "📅 Data",
-          value: formattedDate,
-          inline: true
-        },
-        {
-          name: "⏰ Horário",
-          value: data.time,
-          inline: true
-        },
-        {
-          name: "📧 Email",
-          value: data.email,
-          inline: true
-        },
-        {
-          name: "📝 Descrição",
-          value: data.description
+    let embed;
+    
+    if (webhookType === 'approved') {
+      // Para aprovados: apenas nome e descrição
+      embed = {
+        title: "✅ Alistamento aprovado",
+        color: 5025616, // Verde
+        fields: [
+          {
+            name: "👤 Nome",
+            value: data.title || "Nome não informado"
+          },
+          {
+            name: "📝 Descrição",
+            value: data.description || "Sem descrição"
+          }
+        ],
+        timestamp: new Date().toISOString(),
+        footer: {
+          text: "Esquadrilha da Fumaça - FiveM"
         }
-      ],
-      timestamp: new Date().toISOString(),
-      footer: {
-        text: "Esquadrilha da Fumaça - FiveM"
-      }
-    };
+      };
+    } else if (webhookType === 'rejected') {
+      // Para reprovados: apenas o status
+      embed = {
+        title: "❌ Alistamento reprovado",
+        color: 15073536, // Vermelho
+        fields: [
+          {
+            name: "Status",
+            value: data.status || "Status não informado"
+          }
+        ],
+        timestamp: new Date().toISOString(),
+        footer: {
+          text: "Esquadrilha da Fumaça - FiveM"
+        }
+      };
+    } else {
+      // Comportamento padrão para outros tipos de notificações
+      embed = {
+        title: data.title || "🛩️ Nova Solicitação de Apresentação",
+        color: 3447003, // Azul (padrão)
+        fields: [
+          {
+            name: "📍 Cidade",
+            value: data.city || "Não informada",
+            inline: true
+          },
+          {
+            name: "📅 Data",
+            value: formattedDate,
+            inline: true
+          },
+          {
+            name: "⏰ Horário",
+            value: data.time || "Não informado",
+            inline: true
+          },
+          {
+            name: "📧 Email",
+            value: data.email || "Não informado",
+            inline: true
+          },
+          {
+            name: "📝 Descrição",
+            value: data.description || "Sem descrição"
+          }
+        ],
+        timestamp: new Date().toISOString(),
+        footer: {
+          text: "Esquadrilha da Fumaça - FiveM"
+        }
+      };
+    }
 
     const payload = {
       embeds: [embed]
