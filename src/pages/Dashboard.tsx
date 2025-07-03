@@ -361,18 +361,26 @@ export default function Dashboard() {
           
         const enlistment = enlistments.find(e => e.id === enlistmentId);
         if (enlistment) {
-          const notificationSent = await sendDiscordNotification({
-            id: enlistment.id,
-            city: 'N/A',
-            email: enlistment.email,
-            date: new Date(),
-            time: 'N/A',
-            discordId: enlistment.discordNick,
-            description: `Nome: ${enlistment.nome} ${enlistment.sobrenome}\nEmail: ${enlistment.email}\nIdade: ${enlistment.idade}\nMotivo: ${enlistment.motivoEntrada}\nConhecimento: ${enlistment.conhecimentoAviao}\nVoo FIVEM: ${enlistment.vooFivem}\nConhece Esquadrilha: ${enlistment.conheceEsquadrilha}\nTurno: ${enlistment.turno.join(', ')}\nStatus: ${getEnlistmentStatusText(newStatus)}`,
-            status: newStatus,
-            createdAt: new Date(),
-            title
-          });
+          // Determina qual webhook usar com base no status
+          let webhookType: 'default' | 'approved' | 'rejected' = 'default';
+          if (newStatus === 'approved') webhookType = 'approved';
+          if (newStatus === 'rejected') webhookType = 'rejected';
+          
+          const notificationSent = await sendDiscordNotification(
+            {
+              id: enlistment.id,
+              city: 'N/A',
+              email: enlistment.email,
+              date: new Date(),
+              time: 'N/A',
+              discordId: enlistment.discordNick,
+              description: `Nome: ${enlistment.nome} ${enlistment.sobrenome}\nEmail: ${enlistment.email}\nIdade: ${enlistment.idade}\nMotivo: ${enlistment.motivoEntrada}\nConhecimento: ${enlistment.conhecimentoAviao}\nVoo FIVEM: ${enlistment.vooFivem}\nConhece Esquadrilha: ${enlistment.conheceEsquadrilha}\nTurno: ${enlistment.turno.join(', ')}\nStatus: ${getEnlistmentStatusText(newStatus)}`,
+              status: newStatus,
+              createdAt: new Date(),
+              title
+            },
+            webhookType // Passa o tipo de webhook para a função
+          );
           
           if (notificationSent) {
             console.log(`Notificação de ${newStatus} enviada para o Discord com sucesso`);
