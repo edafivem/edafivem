@@ -335,7 +335,7 @@ export default function Dashboard() {
   const handleEnlistmentStatusUpdate = async (enlistmentId: string, newStatus: Enlistment['status']) => {
     try {
       setEnlistmentLoading(true);
-      const enlistmentRef = doc(db, 'enlistments', enlistmentId);
+      const enlistmentRef = doc(db, 'alistamentos', enlistmentId);
       
       // Encontra o alistamento atual
       const enlistment = enlistments.find(e => e.id === enlistmentId);
