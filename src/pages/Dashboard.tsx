@@ -334,9 +334,15 @@ export default function Dashboard() {
   // Atualiza o status do alistamento
   const handleEnlistmentStatusUpdate = async (enlistmentId: string, newStatus: Enlistment['status']) => {
     try {
-      setEnlistmentLoading(true)
-      const enlistmentRef = doc(db, 'alistamentos', enlistmentId);
+      setEnlistmentLoading(true);
+      const enlistmentRef = doc(db, 'enlistments', enlistmentId);
       
+      // Encontra o alistamento atual
+      const enlistment = enlistments.find(e => e.id === enlistmentId);
+      if (!enlistment) {
+        throw new Error('Alistamento não encontrado');
+      }
+
       // Atualizar o status no Firestore
       await updateDoc(enlistmentRef, {
         status: newStatus,
@@ -344,52 +350,59 @@ export default function Dashboard() {
       
       // Enviar notificação para o Discord
       try {
-        let title;
-        switch(newStatus) {
-          case 'approved':
-            title = '✅ Alistamento Aprovado';
-            break;
-          case 'rejected':
-            title = '❌ Alistamento Rejeitado';
-            break;
-          case 'in_progress':
-            title = '🔄 Alistamento Em Análise';
-            break;
-          default:
-            title = '🔔 Status do Alistamento Atualizado';
+        // Determina qual webhook usar com base no status
+        let webhookType: 'default' | 'approved' | 'rejected' = 'default';
+        if (newStatus === 'approved') webhookType = 'approved';
+        if (newStatus === 'rejected') webhookType = 'rejected';
+        
+        // Prepara os dados específicos para cada tipo de notificação
+        let notificationData;
+        
+        if (webhookType === 'approved') {
+          // Para aprovados: envia apenas nome e descrição
+          notificationData = {
+            id: enlistment.id,
+            title: `${enlistment.nome} ${enlistment.sobrenome}`,
+            description: `Motivo: ${enlistment.motivoEntrada || 'Não informado'}`,
+            status: newStatus,
+            date: new Date(),
+            createdAt: new Date()
+          };
+        } else if (webhookType === 'rejected') {
+          // Para reprovados: envia apenas o status
+          notificationData = {
+            id: enlistment.id,
+            title: `Alistamento #${enlistment.id.substring(0, 6)}`,
+            status: getEnlistmentStatusText(newStatus),
+            date: new Date(),
+            createdAt: new Date()
+          };
+        } else {
+          // Para outros status: envia informações completas
+          notificationData = {
+            id: enlistment.id,
+            title: `Alistamento ${getEnlistmentStatusText(newStatus)} - ${enlistment.nome} ${enlistment.sobrenome}`,
+            description: `Nome: ${enlistment.nome} ${enlistment.sobrenome}\nMotivo: ${enlistment.motivoEntrada}\nStatus: ${getEnlistmentStatusText(newStatus)}`,
+            status: newStatus,
+            date: new Date(),
+            discordId: enlistment.discordNick,
+            createdAt: new Date()
+          };
         }
-          
-        const enlistment = enlistments.find(e => e.id === enlistmentId);
-        if (enlistment) {
-          // Determina qual webhook usar com base no status
-          let webhookType: 'default' | 'approved' | 'rejected' = 'default';
-          if (newStatus === 'approved') webhookType = 'approved';
-          if (newStatus === 'rejected') webhookType = 'rejected';
-          
-          const notificationSent = await sendDiscordNotification(
-            {
-              id: enlistment.id,
-              date: new Date(),
-              discordId: enlistment.discordNick,
-              description: `Nome: ${enlistment.nome} ${enlistment.sobrenome}\nMotivo: ${enlistment.motivoEntrada}\nStatus: ${getEnlistmentStatusText(newStatus)}`,
-              status: newStatus,
-              createdAt: new Date(),
-              title
-            },
-            webhookType // Passa o tipo de webhook para a função
-          );
-          
-          if (notificationSent) {
-            console.log(`Notificação de ${newStatus} enviada para o Discord com sucesso`);
-          } else {
-            console.warn(`Falha ao enviar notificação de ${newStatus} para o Discord`);
-          }
+        
+        // Envia a notificação
+        const notificationSent = await sendDiscordNotification(notificationData, webhookType);
+        
+        if (notificationSent) {
+          console.log(`Notificação de ${newStatus} enviada para o Discord com sucesso`);
+        } else {
+          console.warn(`Falha ao enviar notificação de ${newStatus} para o Discord`);
         }
       } catch (discordError) {
         console.error(`Erro ao enviar notificação de ${newStatus} para o Discord:`, discordError);
       }
       
-      toast.success(`Status do alistamento atualizado com sucesso`);
+      toast.success(`Status do alistamento atualizado para ${getEnlistmentStatusText(newStatus)} com sucesso`);
       setIsEnlistmentDialogOpen(false);
     } catch (error) {
       console.error("Erro ao atualizar status do alistamento:", error);
