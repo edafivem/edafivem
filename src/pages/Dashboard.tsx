@@ -369,12 +369,9 @@ export default function Dashboard() {
           const notificationSent = await sendDiscordNotification(
             {
               id: enlistment.id,
-              city: 'N/A',
-              email: enlistment.email,
               date: new Date(),
-              time: 'N/A',
               discordId: enlistment.discordNick,
-              description: `Nome: ${enlistment.nome} ${enlistment.sobrenome}\nEmail: ${enlistment.email}\nIdade: ${enlistment.idade}\nMotivo: ${enlistment.motivoEntrada}\nConhecimento: ${enlistment.conhecimentoAviao}\nVoo FIVEM: ${enlistment.vooFivem}\nConhece Esquadrilha: ${enlistment.conheceEsquadrilha}\nTurno: ${enlistment.turno.join(', ')}\nStatus: ${getEnlistmentStatusText(newStatus)}`,
+              description: `Nome: ${enlistment.nome} ${enlistment.sobrenome}\nMotivo: ${enlistment.motivoEntrada}\nStatus: ${getEnlistmentStatusText(newStatus)}`,
               status: newStatus,
               createdAt: new Date(),
               title
