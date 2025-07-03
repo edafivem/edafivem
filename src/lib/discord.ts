@@ -10,14 +10,14 @@ const DISCORD_WEBHOOKS = {
 
 const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
-interface PresentationData {
+interface NotificationData {
   id: string;
   title: string;
-  city: string;
-  email: string;
+  city?: string;
+  email?: string;
   date: Date;
-  time: string;
-  description: string;
+  time?: string;
+  description?: string;
   status: string;
   createdAt: Date;
   discordId?: string;
@@ -26,7 +26,7 @@ interface PresentationData {
 /**
  * Envia uma notificação para o webhook do Discord usando um proxy CORS
  */
-export async function sendDiscordNotification(data: PresentationData, webhookType: 'default' | 'approved' | 'rejected' = 'default'): Promise<boolean> {
+export async function sendDiscordNotification(data: NotificationData, webhookType: 'default' | 'approved' | 'rejected' = 'default'): Promise<boolean> {
   const DISCORD_WEBHOOK_URL = DISCORD_WEBHOOKS[webhookType] || DISCORD_WEBHOOKS.default;
   try {
     const formattedDate = format(data.date, "dd/MM/yyyy", { locale: ptBR });
