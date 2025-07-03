@@ -4,8 +4,8 @@ import { ptBR } from 'date-fns/locale'
 // URLs dos webhooks do Discord para diferentes tipos de notificações
 const DISCORD_WEBHOOKS = {
   default: 'https://discord.com/api/webhooks/1358649121866780824/MzZs47mlUTbTGVyLa1faSAz_75LGVPD8ByWVFFKt-Oq4GtxTaFMG3JinVg4qyFbqSmk-',
-  approved: 'https://discord.com/api/webhooks/1390442367336583349/_iiyt2VWxxSkrAabjSWywFXEr82nY3ciLM_JmKRHbbmUJmYACncUDGfTFVIzyko8Xa7I', // Substitua pela URL do canal de aprovados
-  rejected: 'https://discord.com/api/webhooks/1390442367336583349/_iiyt2VWxxSkrAabjSWywFXEr82nY3ciLM_JmKRHbbmUJmYACncUDGfTFVIzyko8Xa7I'  // Substitua pela URL do canal de reprovados
+  approved: 'https://discord.com/api/webhooks/1358649121866780824/MzZs47mlUTbTGVyLa1faSAz_75LGVPD8ByWVFFKt-Oq4GtxTaFMG3JinVg4qyFbqSmk-', // Substitua pela URL do canal de aprovados
+  rejected: 'https://discord.com/api/webhooks/1358649121866780824/MzZs47mlUTbTGVyLa1faSAz_75LGVPD8ByWVFFKt-Oq4GtxTaFMG3JinVg4qyFbqSmk-'  // Substitua pela URL do canal de reprovados
 };
 
 const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
@@ -59,6 +59,10 @@ export async function sendDiscordNotification(data: NotificationData, webhookTyp
         title: "❌ Alistamento reprovado",
         color: 15073536, // Vermelho
         fields: [
+          {
+            name: "👤 Nome",
+            value: data.title || "Nome não informado"
+          },
           {
             name: "Status",
             value: data.status || "Status não informado"
