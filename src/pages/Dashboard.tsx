@@ -370,10 +370,10 @@ export default function Dashboard() {
             createdAt: new Date()
           };
         } else if (webhookType === 'rejected') {
-          // Para reprovados: envia apenas o status
+          // Para reprovados: envia o nome e o status
           notificationData = {
             id: enlistment.id,
-            title: `Alistamento #${enlistment.id.substring(0, 6)}`,
+            title: `${enlistment.nome} ${enlistment.sobrenome}`,
             status: getEnlistmentStatusText(newStatus),
             date: new Date(),
             discordId: enlistment.discordNick,
