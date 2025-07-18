@@ -116,7 +116,7 @@ export default function JoinUs() {
                         <div>
                           <h3 className="font-medium mb-2">Idade Mínima</h3>
                           <p className="text-muted-foreground">
-                            Ter no mínimo 13 anos de idade.
+                            Ter no mínimo 15 anos de idade.
                           </p>
                         </div>
                       </div>
