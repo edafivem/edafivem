@@ -242,9 +242,9 @@ export default function JoinUs() {
                   3
                 </div>
                 <Card className="border-2 pt-16 pb-8 px-6 text-center">
-                  <h3 className="text-xl font-bold mb-4">Treinamento</h3>
+                  <h3 className="text-xl font-bold mb-4">Carreira</h3>
                   <p className="text-muted-foreground">
-                    Se aprovado, você iniciará o treinamento para se tornar um piloto oficial do EDA.
+                    Se aprovado, você ingressará na AFA (Academia da Força Aérea) e poderá se tornar um piloto da Esquadrilha Da Fumaça.
                   </p>
                 </Card>
               </motion.div>
