@@ -36,23 +36,23 @@ export async function sendDiscordNotification(data: NotificationData, webhookTyp
     if (webhookType === 'approved') {
       // Para aprovados: apenas nome e descrição
       embed = {
-        title: "✅ Alistamento aprovado",
-        color: 5025616, // Verde
-        fields: [
-          {
-            name: "👤 Nome",
-            value: data.title || "Nome não informado"
-          },
-          {
-            name: "📝 Descrição",
-            value: data.description || "Sem descrição"
-          }
-        ],
-        timestamp: new Date().toISOString(),
-        footer: {
-          text: "Esquadrilha da Fumaça - FiveM"
-        }
-      };
+  title: "✅ Alistamento aprovado",
+  color: 5025616, // Verde
+  fields: [
+    {
+      name: "👤 Nome",
+      value: data.title || "Nome não informado"
+    },
+    {
+      name: "Status",
+      value: data.status || "Status não informado"
+    }
+  ],
+  timestamp: new Date().toISOString(),
+  footer: {
+    text: "Esquadrilha da Fumaça - FiveM"
+  }
+};
     } else if (webhookType === 'rejected') {
       // Para reprovados: apenas o status
       embed = {
