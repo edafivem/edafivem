@@ -332,7 +332,7 @@ export function EnlistmentForm() {
                 id="idade"
                 name="idade"
                 type="number"
-                min="13"
+                min="17"
                 value={formData.idade}
                 onChange={handleInputChange}
                 placeholder="Sua idade"
